@@ -1,6 +1,6 @@
 {
   "name": "proxy-checker-advanced",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "a module which checks if a proxy is working!",
   "main": "index.js",
   "scripts": {
@@ -8,17 +8,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SomeTroller77/proxy-checker.git"
+    "url": "git+https://github.com/SomeTroller77/proxy-checker-advanced.git"
   },
   "keywords": [
-    "proxy"
+    "proxy",
+    "proxy-checker-advanced",
+    "proxy-checker"
   ],
   "author": "SomeTroller77",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/SomeTroller77/proxy-checker/issues"
+    "url": "https://github.com/SomeTroller77/proxy-checker-advanced/issues"
   },
-  "homepage": "https://github.com/SomeTroller77/proxy-checker#readme",
+  "homepage": "https://github.com/SomeTroller77/proxy-checker-advanced#readme",
   "dependencies": {
     "axios": "^1.6.0",
     "socks-proxy-agent": "^8.0.2"
