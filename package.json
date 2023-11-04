@@ -1,5 +1,5 @@
 {
-  "name": "proxy-checker",
+  "name": "proxy-checker-advanced",
   "version": "1.0.0",
   "description": "a module which checks if a proxy is working!",
   "main": "index.js",
@@ -22,5 +22,6 @@
   "dependencies": {
     "axios": "^1.6.0",
     "socks-proxy-agent": "^8.0.2"
-  }
+  },
+  "devDependencies": {}
 }
