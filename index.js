@@ -1,14 +1,13 @@
 const axios = require('axios');
-const {SocksProxyAgent} = require("socks-proxy-agent")
+const {SocksProxyAgent} = require("socks-proxy-agent");
+const socks = require('socksv5');
 
 module.exports = class ProxyChecker{
     #proxies;
     #workingProxies;
     #actip;
     #index;
-    #lastWorkingProxy;
     constructor(pproxies){
-        this.#lastWorkingProxy = false;
         this.#proxies=[];
         this.#actip = "";
         this.#workingProxies =[];
@@ -24,10 +23,8 @@ module.exports = class ProxyChecker{
         return new Promise(async (resolve, reject) =>{
             this.#actip = (await axios.get("https://api.ipify.org/?format=json")).data.ip;
             for(this.#index=0; this.#index < this.#proxies.length; this.#index++){
-                
                 try{
                     if(this.#proxies[this.#index].protocol === "socks5"){
-                        const proxy = new SocksProxyAgent(`socks5://${this.#proxies[this.#index].host}:${this.#proxies[this.#index].port}`)
                         var res = await axios.get("https://api.ipify.org/?format=json",
                         {
                             timeout:5000,
@@ -35,8 +32,7 @@ module.exports = class ProxyChecker{
                                     protocol:this.#proxies[this.#index].protocol,
                                     host:this.#proxies[this.#index].host,
                                     port:this.#proxies[this.#index].port,
-                                    httpsAgent:proxy,
-                                    httpAgent:proxy
+                                    agent:new socks.httpAgent({proxyHost:this.#proxies[this.#index].host, proxyPort:this.#proxies[this.#index].port})
                                 }
                         });
                     }else if(this.#proxies[this.#index].protocol === "http" || this.#proxies[this.#index].protocol === "https"){
@@ -64,6 +60,7 @@ module.exports = class ProxyChecker{
     async checkNextProxy(i){
         var workingProxies = [];
         if(i > this.#proxies.length) throw new Error("Number of working proxies requested is greater tha number of proxies given to check")
+        if(this.#index == this.#proxies.length) throw new Error("All proxies have been checked");
         return new Promise(async (resolve, reject) =>{
             while(workingProxies.length !=  i && this.#index < this.#proxies.length){
                 try{
@@ -71,13 +68,13 @@ module.exports = class ProxyChecker{
                         const proxy = new SocksProxyAgent(`socks5://${this.#proxies[this.#index].host}:${this.#proxies[this.#index].port}`)
                         var res = await axios.get("https://api.ipify.org/?format=json",
                         {
+                            httpAgent:proxy,
+                            httpsAgent:proxy,
                             timeout:5000,
                             proxy:{
                                     protocol:this.#proxies[this.#index].protocol,
                                     host:this.#proxies[this.#index].host,
-                                    port:this.#proxies[this.#index].port,
-                                    httpsAgent:proxy,
-                                    httpAgent:proxy
+                                    port:this.#proxies[this.#index].port
                                 }
                         });
                     }else if(this.#proxies[this.#index].protocol === "http" || this.#proxies[this.#index].protocol === "https"){
@@ -91,8 +88,6 @@ module.exports = class ProxyChecker{
                                 }
                         });
                     }
-                    console.log("sent the req" + res.data.ip);
-                    
                     if(res) workingProxies.push({protocol: this.#proxies[this.#index].protocol,host:this.#proxies[this.#index].host, port:this.#proxies[this.#index].port});
                 }catch(e){
                     console.log(e.message);
