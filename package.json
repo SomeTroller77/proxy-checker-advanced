@@ -1,6 +1,6 @@
 {
   "name": "proxy-checker-advanced",
-  "version": "1.0.3",
+  "version": "1.0.3.1",
   "description": "a module which checks if a proxy is working!",
   "main": "index.js",
   "scripts": {

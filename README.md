@@ -8,11 +8,11 @@ This module only supports HTTP proxy checking for now, socks5 will be added soon
 Theres no support for authentication. It will be added soon
 
 ## Usage
-
+First install the module
 ```bash
 npm i proxy-checker-advanced
 ```
-
+Example of functions that can be used with this module
 ```js
 const ProxyChecker = require('proxy-checker-advanced');
 const proxycheck = new ProxyChecker(["proxy", "here"]);
