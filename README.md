@@ -15,7 +15,10 @@ npm i proxy-checker-advanced
 Example of functions that can be used with this module
 ```js
 const ProxyChecker = require('proxy-checker-advanced');
-const proxycheck = new ProxyChecker(["proxy", "here"]);
+const proxycheck = new ProxyChecker(["proxy", "here"]); 
+// proxies to be checked should be provided in the format like this
+// protocol://host:port
+// for ex: http://127.0.0.1:8080
 (async ()=>{
     console.log(await proxycheck.checkAllProxies()); 
     /* checks all proxies and returns an array of json objects in following format

@@ -48,7 +48,6 @@ module.exports = class ProxyChecker{
                     }
                     
                     if(res.data.ip == this.#actip) throw new Error("Proxy is not working");
-                    console.log(this.#proxies[this.#index].protocol);
                     this.#workingProxies.push({protocol: this.#proxies[this.#index].protocol,host:this.#proxies[this.#index].host, port:this.#proxies[this.#index].port});
                 }catch(e){
                     console.log(e.message);
